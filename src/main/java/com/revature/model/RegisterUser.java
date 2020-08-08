@@ -14,23 +14,23 @@ public class RegisterUser{
 		super();
 		
 		//Name
-		System.out.println("Enter your first and last name");
+		System.out.println("             Enter your first and last name");
 		String Name = Driver.scan.nextLine();
 		setName(Name);
 		
 		//Username
-		System.out.println("Enter a username");
+		System.out.println("             Enter a username");
 		String username = Driver.scan.nextLine();
 		setUsername(username);
 		
 		//Password
-		System.out.println("Enter a password");
+		System.out.println("             Enter a password");
 		String password = Driver.scan.nextLine();
 		setPassword(password);
 		
 		//LogIn
-		System.out.println("Thank you " + Name + " for registering with Velox Bank");
-		System.out.println("Please Log In to access account");
+		System.out.println("             Thank you " + Name + " for registering with Velox Bank");
+		System.out.println("             Please Log In to access account");
 		
 		
 		

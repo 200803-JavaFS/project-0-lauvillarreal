@@ -4,10 +4,11 @@ import java.util.*;
 
 
 public class Account {
+	private String Name;
 	private int checkingsBalance;
 	private int savingsBalance;
 	private List<String> transactionHistory;
-	private int Id;
+	private UUID Id;
 	private int deposit;
 	private int widthdraw;
 	private int transfer;
@@ -53,13 +54,23 @@ public class Account {
 	}
 
 
-	public int getId() {
+	public UUID getId() {
 		return Id;
 	}
 
 
-	public void setId(int id) {
+	public void setId(UUID id) {
 		Id = id;
+	}
+
+
+	public String getName() {
+		return Name;
+	}
+
+
+	public void setName(String name) {
+		Name = name;
 	}
 	
 

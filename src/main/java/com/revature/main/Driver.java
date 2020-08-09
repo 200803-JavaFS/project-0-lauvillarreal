@@ -1,10 +1,9 @@
 package com.revature.main;
 
 
-import java.awt.Font;
+
 import java.util.Scanner;
 
-import javax.swing.JButton;
 
 import com.revature.menu.Menu;
 import com.revature.model.LoginUser;
@@ -19,7 +18,7 @@ public class Driver {
 		//Logo
 		Logo logo = new Logo();
 		
-		
+		//Menu
 		Menu m = new Menu();
 		
 	

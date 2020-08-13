@@ -1,8 +1,10 @@
-package com.revature.model;
+package com.revature.DAO;
 
 import java.util.*;
 
-public interface Employees {
+import com.revature.model.Account;
+
+public interface EmployeesDAO  {
 /*	Employees of the bank should be able to view all of their customers information. This includes:
 		--Account information
 		--Account balances

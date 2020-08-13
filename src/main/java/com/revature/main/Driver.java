@@ -1,20 +1,25 @@
 package com.revature.main;
 
-
-
 import java.util.Scanner;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import com.revature.menu.Logo;
 import com.revature.menu.Menu;
-import com.revature.model.LoginUser;
-import com.revature.model.OpenAccount;
-import com.revature.model.RegisterUser;
+import com.revature.services.LoginUser;
+import com.revature.services.OpenAccount;
+import com.revature.services.RegisterUser;
 
 public class Driver {
 	
 	public static final Scanner scan = new Scanner(System.in);
+	private static final Logger log = LogManager.getLogger(Driver.class); 
 	
 	public static void main(String[] args) {
+		
+		log.info("The application has started");
+	
 		//Logo
 		Logo logo = new Logo();
 		
@@ -24,13 +29,13 @@ public class Driver {
 	
 		
 		//Introducing Velox Bank 
-		System.out.println("                                    Welcome to Velox Bank                ");
-		System.out.println("                                  Where Banking Is Made Simple           ");
+		System.out.println("                                    Welcome to Velox Bank");
+		System.out.println("                                  Where Banking Is Made Simple");
 		
 		addSpace();
 		
 		//Register User
-		System.out.println("             To open an account, register now.           ");
+		System.out.println("             To open an account, register now.");
 		RegisterUser user = new RegisterUser();
 		
 		
@@ -47,6 +52,8 @@ public class Driver {
 			System.out.println("                Authentification Failed! Start Over...");
 		}
 		
+		log.info("The application is ending") ;
+		
 		
 		
 		
@@ -60,5 +67,11 @@ public class Driver {
 		
 		
 	}
+	
+
+	public static void recur() {
+		recur(); 
+	} 
+	
 
 }

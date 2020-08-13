@@ -1,15 +1,12 @@
-package com.revature.model;
+package com.revature.DAO;
 
-import java.util.List;
+import com.revature.model.*;
+import java.util.*;
 
-import com.revature.model.Account;
-
-public interface Admin {
-/* Bank admins should be able to view and edit all accounts. This includes:
-	--approving/denying accounts
-	--withdrawing, depositing, transferring from all accounts
-	--canceling accounts
-*/
+public interface UserDAO {
+	
+	public List<User> getUsers();
+	public User getUserById(String id);
 	public List<Account> getAllAccounts();
 	public List<Account> getAccountById(String Id);
 	public List<Account> getAccountByName(String name);
@@ -23,5 +20,7 @@ public interface Admin {
 	public boolean depositByAccountId(int amount);
 	public boolean withdrawByAccountId(int amount);
 	public boolean transferfromAccountIdToId(int amount);
+	
+	
 
 }

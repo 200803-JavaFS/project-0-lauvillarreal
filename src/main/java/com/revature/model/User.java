@@ -6,13 +6,85 @@ public class User {
 	private String password;
 	private String name;
 	private boolean isLoggedIn;
+	private String type;
+	private Account account;
+	private String usersID;
 	
+
+
 	public User() {
 		super();
 	}
 	
+	public User(String username, String password, String name, boolean isLoggedIn) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.name = name;
+		this.isLoggedIn = isLoggedIn;
+	}
 	
-	public String getUsername() {
+	
+	public User(String username, String password, String name, boolean isLoggedIn, String type, Account account,
+			String usersID) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.name = name;
+		this.isLoggedIn = isLoggedIn;
+		this.type = type;
+		this.account = account;
+		this.usersID = usersID;
+	}
+
+	public User(String username, String password, String name) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.name = name;
+	}
+	
+
+	public User(String username, String password, String name, boolean isLoggedIn, String type) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.name = name;
+		this.isLoggedIn = isLoggedIn;
+		this.type = type;
+	}
+	
+	
+	public User(String username, String password, String name, boolean isLoggedIn, String type, Account account) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.name = name;
+		this.isLoggedIn = isLoggedIn;
+		this.type = type;
+		this.account = account;
+	}
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+	
+	
+	public String getType() {
+		return type;
+	}
+
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	
+	public  String getUsername() {
 		return username;
 	}
 
@@ -47,38 +119,30 @@ public class User {
 	}
 
 
-	public void setLoggedIn(boolean isLoggedIn) {
-		this.isLoggedIn = isLoggedIn;
+	public static void setLoggedIn(boolean isLoggedIn) {
+		isLoggedIn = isLoggedIn;
+	}
+	 
+	public String getUsersID() {
+		return usersID;
 	}
 
-
-	public User(String username, String password, String name, boolean isLoggedIn) {
-		super();
-		this.username = username;
-		this.password = password;
-		this.name = name;
-		this.isLoggedIn = isLoggedIn;
+	public void setUsersID(String usersID) {
+		this.usersID = usersID;
 	}
-	
-	public User(String username, String password, String name) {
-		super();
-		this.username = username;
-		this.password = password;
-		this.name = name;
-	}
-
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((account == null) ? 0 : account.hashCode());
 		result = prime * result + (isLoggedIn ? 1231 : 1237);
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -89,6 +153,11 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
+		if (account == null) {
+			if (other.account != null)
+				return false;
+		} else if (!account.equals(other.account))
+			return false;
 		if (isLoggedIn != other.isLoggedIn)
 			return false;
 		if (name == null) {
@@ -101,6 +170,11 @@ public class User {
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
+		if (type == null) {
+			if (other.type != null)
+				return false;
+		} else if (!type.equals(other.type))
+			return false;
 		if (username == null) {
 			if (other.username != null)
 				return false;
@@ -109,12 +183,17 @@ public class User {
 		return true;
 	}
 
-
 	@Override
 	public String toString() {
 		return "User [username=" + username + ", password=" + password + ", name=" + name + ", isLoggedIn=" + isLoggedIn
-				+ "]";
+				+ ", type=" + type + ", account=" + account + "]";
 	}
+
+	
+
+
+
+
 	
 
 	

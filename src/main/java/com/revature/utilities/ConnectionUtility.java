@@ -5,11 +5,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 
-public class DAOutilities {
+public class ConnectionUtility {
 	
 	private static final String CONNECTION_USERNAME = "postgres";
-	private static final String CONNECTION_PASSWORD = "Mysterio619@";
-	private static final String URL = "jdbc:postgresql://localhost:5432/proj0";
+	private static final String CONNECTION_PASSWORD = "password";
+	private static final String URL = "jdbc:postgresql://javafs200803.cwzu70jxciz7.us-west-1.rds.amazonaws.com/bank";
 	private static Connection connection;
 	
 	public static synchronized Connection getConnection() throws SQLException {

@@ -3,7 +3,7 @@ package com.revature.services;
 import java.util.InputMismatchException;
 
 import com.revature.model.*;
-import com.revature.main.*;
+import com.revature.utilities.*;
 
 
 public class AccountServices {
@@ -20,7 +20,7 @@ public class AccountServices {
 
 	public void withdrawCheckings(){
 		System.out.println("Enter widthrawal amount:");
-		double amount = Driver.scan.nextInt();
+		double amount = BankingApp.scan.nextInt();
 		try {
 			if (amount < 0) {
 				System.out.println("Input can't be negative");
@@ -41,7 +41,7 @@ public class AccountServices {
 	
 	public void withdrawSavings() {
 		System.out.println("Enter widthrawal amount:");
-		double amount = Driver.scan.nextInt();
+		double amount = BankingApp.scan.nextInt();
 		try {
 			if (amount < 0) {
 				System.out.println("Input can't be negative");
@@ -66,7 +66,7 @@ public class AccountServices {
 	
 	public void depositCheckings() {
 		System.out.println("Enter deposit amount:");
-		double amount = Driver.scan.nextInt();
+		double amount = BankingApp.scan.nextInt();
 		try {
 			if (amount < 0) {
 				System.out.println("Input can't be negative");
@@ -75,6 +75,25 @@ public class AccountServices {
 				checkingsBalance += amount;
 				System.out.println("Deposit complete!");
 				System.out.println("Your checkings balance is now" + checkingsBalance );
+			}
+			} catch (InputMismatchException e) {
+					System.out.println("Invalid Input");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+	}
+	
+	public void deposiSavings() {
+		System.out.println("Enter deposit amount:");
+		double amount = BankingApp.scan.nextInt();
+		try {
+			if (amount < 0) {
+				System.out.println("Input can't be negative");
+			
+			} else {
+				savingsBalance += amount;
+				System.out.println("Deposit complete!");
+				System.out.println("Your savingss balance is now" + savingsBalance );
 			}
 			} catch (InputMismatchException e) {
 					System.out.println("Invalid Input");

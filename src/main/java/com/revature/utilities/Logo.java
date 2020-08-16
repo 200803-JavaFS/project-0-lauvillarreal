@@ -1,4 +1,4 @@
-package com.revature.menu;
+package com.revature.utilities;
 
 public class Logo {
 

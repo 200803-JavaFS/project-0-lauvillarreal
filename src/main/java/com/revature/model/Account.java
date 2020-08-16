@@ -1,23 +1,39 @@
 package com.revature.model;
 
-import java.util.*;
 
 
 public class Account {
 	private String Name;
 	private double checkingsBalance;
 	private double savingsBalance;
-	private List<String> transactionHistory;
-	private UUID accountNumber;
-	private boolean approval;
+	private String username;
+	private String status;
 	
 	
 	
 	public Account() {
 		super();
 	}
-
 	
+	public Account(String name, double checkingsBalance, double savingsBalance, String username, String status) {
+		super();
+		Name = name;
+		this.checkingsBalance = checkingsBalance;
+		this.savingsBalance = savingsBalance;
+		this.username = username;
+		this.status = status;
+	}
+	
+	
+	
+	public Account(String name, double checkingsBalance, double savingsBalance, String status) {
+		super();
+		Name = name;
+		this.checkingsBalance = checkingsBalance;
+		this.savingsBalance = savingsBalance;
+		this.status = status;
+	}
+
 	public double getCheckingsBalance() {
 		return checkingsBalance;
 	}
@@ -35,13 +51,13 @@ public class Account {
 	}
 
 
-	public UUID getId() {
-		return accountNumber;
+	public String getUsername() {
+		return username;
 	}
 
 
-	public void setId(UUID accountNumber) {
-		this.accountNumber = accountNumber;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 
@@ -55,23 +71,13 @@ public class Account {
 	}
 
 
-	public boolean isStatus() {
-		return approval;
+	public String getStatus() {
+		return status;
 	}
 
 
-	public void setStatus(boolean status) {
-		this.approval = status;
-	}
-
-
-	public List<String> getTransactionHistory() {
-		return transactionHistory;
-	}
-
-
-	public void setTransactionHistory(List<String> transactionHistory) {
-		this.transactionHistory = transactionHistory;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 
@@ -80,14 +86,13 @@ public class Account {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((Name == null) ? 0 : Name.hashCode());
-		result = prime * result + ((accountNumber == null) ? 0 : accountNumber.hashCode());
-		result = prime * result + (approval ? 1231 : 1237);
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		long temp;
 		temp = Double.doubleToLongBits(checkingsBalance);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(savingsBalance);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((transactionHistory == null) ? 0 : transactionHistory.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
 	}
 
@@ -106,21 +111,19 @@ public class Account {
 				return false;
 		} else if (!Name.equals(other.Name))
 			return false;
-		if (accountNumber == null) {
-			if (other.accountNumber != null)
+		if (username == null) {
+			if (other.username != null)
 				return false;
-		} else if (!accountNumber.equals(other.accountNumber))
-			return false;
-		if (approval != other.approval)
+		} else if (!username.equals(other.username))
 			return false;
 		if (Double.doubleToLongBits(checkingsBalance) != Double.doubleToLongBits(other.checkingsBalance))
 			return false;
 		if (Double.doubleToLongBits(savingsBalance) != Double.doubleToLongBits(other.savingsBalance))
 			return false;
-		if (transactionHistory == null) {
-			if (other.transactionHistory != null)
+		if (status == null) {
+			if (other.status != null)
 				return false;
-		} else if (!transactionHistory.equals(other.transactionHistory))
+		} else if (!status.equals(other.status))
 			return false;
 		return true;
 	}
@@ -129,9 +132,18 @@ public class Account {
 	@Override
 	public String toString() {
 		return "Account [Name=" + Name + ", checkingsBalance=" + checkingsBalance + ", savingsBalance=" + savingsBalance
-				+ ", transactionHistory=" + transactionHistory + ", accountNumber=" + accountNumber + ", approval="
-				+ approval + "]";
+				+ ", accountID=" + username + ", status=" + status + "]";
 	}
+
+
+	
+
+	
+	
+
+
+
+
 	
 	
 

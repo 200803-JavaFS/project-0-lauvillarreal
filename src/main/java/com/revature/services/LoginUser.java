@@ -2,9 +2,11 @@ package com.revature.services;
 
 import java.util.*;
 
-import com.revature.main.Driver;
+import com.revature.model.User;
+import com.revature.utilities.BankingApp;
 
-public class LoginUser{
+
+public class LoginUser extends User {
 	static String username;
 	static String password;
 	static int count1;
@@ -24,7 +26,7 @@ public class LoginUser{
 	}
 	public boolean usernameVerification() {
 		System.out.println("             Log In by entering your account username");
-		String userName = Driver.scan.nextLine();
+		String userName = BankingApp.scan.nextLine();
 		count1 = 4;
 		while (count1 > 0) {
 		if (username.equals(userName)) {
@@ -33,7 +35,7 @@ public class LoginUser{
 		} else {
 			System.out.println("               Username does not exists, try again");
 			System.out.println("               Number of tries left: " + count1);
-			userName = Driver.scan.nextLine();
+			userName = BankingApp.scan.nextLine();
 			count1--;
 			
 		}
@@ -42,9 +44,9 @@ public class LoginUser{
 		
 	}
 	
-	public boolean passwordVerification() {
+	public static boolean passwordVerification() {
 		System.out.println("             Enter password");
-		String passWord = Driver.scan.nextLine();
+		String passWord = BankingApp.scan.nextLine();
 		count2 = 4;
 		while (count2 > 0) {
 			if (password.equals(passWord)) {
@@ -54,7 +56,7 @@ public class LoginUser{
 			} else {
 				System.out.println("             Password did not match username, try again");
 				System.out.println("             Number of tries left: " + count2);
-				passWord = Driver.scan.nextLine();
+				passWord = BankingApp.scan.nextLine();
 				count2--;
 				
 			}

@@ -1,13 +1,11 @@
 package com.revature.services;
 
 import java.util.*;
-import com.revature.main.Driver;
+import com.revature.utilities.*;
+import com.revature.model.User;
+import com.revature.main.*;
 
-public class RegisterUser{
-	
-	public String username;
-	public String password;
-	public static String name;
+public class RegisterUser extends User {
 	
 	
 	public RegisterUser()  {
@@ -15,22 +13,28 @@ public class RegisterUser{
 		
 		//Name
 		System.out.println("             Enter your first and last name");
-		String Name = Driver.scan.nextLine();
+		String Name = BankingApp.scan.nextLine();
 		setName(Name);
 		
 		//Username
 		System.out.println("             Enter a username");
-		String username = Driver.scan.nextLine();
+		String username = BankingApp.scan.nextLine();
 		setUsername(username);
 		
 		//Password
 		System.out.println("             Enter a password");
-		String password = Driver.scan.nextLine();
+		String password = BankingApp.scan.nextLine();
 		setPassword(password);
+		
+		//Name
+		System.out.println("             Are you a new [customer] [admin] [employee] ? ");
+		String type = BankingApp.scan.nextLine();
+		setType(type);
 		
 		//LogIn
 		System.out.println("             Thank you " + Name + " for registering with Velox Bank");
-		System.out.println("             Please Log In to access account");
+		BankingApp.addSpace();
+		System.out.println("             Select one of the following options. To exit, press exit.");
 		
 		
 		
@@ -38,23 +42,6 @@ public class RegisterUser{
 	}
 	
 	
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public  String getUsername() {
-		return this.username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		RegisterUser.name = name;
-	}
+
 
 }

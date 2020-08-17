@@ -15,17 +15,17 @@ public class AdminDAO implements IAdminDAO {
 	@Override
 	public boolean updateAccount(Account account) {
 		try (Connection conn = ConnectionUtility.getConnection()) {
-			String sql = "UPDATE account SET users_username = ?, users_name = ?, checkings_bal = ?, savings_bal = ?, status = ?";       
+			String sql = "UPDATE account SET  users_name = ?, checkings_bal = ?, savings_bal = ?, status = ? WHERE users_username = ?";       
 							
 			
 			PreparedStatement statement = conn.prepareStatement(sql);
 
 			int index = 0;
-			statement.setString(++index, account.getUsername());
 			statement.setString(++index, account.getName());
 			statement.setDouble(++index, account.getCheckingsBalance());
 			statement.setDouble(++index, account.getSavingsBalance());
 			statement.setString(++index, account.getStatus());
+			statement.setString(++index, account.getUsername());
 			
 
 			

@@ -57,93 +57,117 @@ public class AccountServices {
 		}
 		return false;
 	}
-/*
-	public void withdrawCheckings(){
-		System.out.println("Enter widthrawal amount:");
+
+	public void withdrawCheckings(Account account){
+		System.out.println("            Enter widthrawal amount:");
 		double amount = BankingApp.scan.nextInt();
+		BankingApp.scan.nextLine();
+		double checkingsBalance = account.getCheckingsBalance();
 		try {
 			if (amount < 0) {
-				System.out.println("Input can't be negative");
+				System.out.println("            Input can't be negative");
 			}
 			if (amount > checkingsBalance) {
-				System.out.println("Not enough funds");
+				System.out.println("            Not enough funds");
 			} else {
 				checkingsBalance -= amount;
-				System.out.println("Withrawal complete!");
-				System.out.println("Your checkings balance is now" + checkingsBalance );
+				account.setCheckingsBalance(checkingsBalance);
+				aDao.updateAccount(account);
+				System.out.println("            Withrawal complete!");
+				System.out.println("            Your checkings balance is now: " + checkingsBalance );
 			}
 			} catch (InputMismatchException e) {
-					System.out.println("Invalid Input");
+					System.out.println("            Invalid Input");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 	}
 
-	public void withdrawSavings() {
-		System.out.println("Enter widthrawal amount:");
+	public void withdrawSavings(Account account) {
+		System.out.println("            Enter widthrawal amount:");
 		double amount = BankingApp.scan.nextInt();
+		BankingApp.scan.nextLine(); 
+		double savingsBalance = account.getSavingsBalance();
 		try {
 			if (amount < 0) {
-				System.out.println("Input can't be negative");
+				System.out.println("            Input can't be negative");
 			}
 			if (amount > savingsBalance) {
-				System.out.println("Not enough funds");
+				System.out.println("            Not enough funds");
 			} else {
 				savingsBalance -= amount;
-				System.out.println("Withrawal complete!");
-				System.out.println("Your checkings balance is now" + savingsBalance );
+				account.setSavingsBalance(savingsBalance);
+				aDao.updateAccount(account);
+				System.out.println("            Withrawal complete!");
+				System.out.println("            Your savingss balance is now: " + savingsBalance );
 			}
 			} catch (InputMismatchException e) {
-					System.out.println("Invalid Input");
+					System.out.println("        Invalid Input");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 	}
 	
-	
+	/*
 	
 	public void transfer(Account account) {
 		
 	}
-	
-	public void depositCheckings() {
-		System.out.println("Enter deposit amount:");
+*/
+	public void depositCheckings(Account account) {
+		System.out.println("            Enter deposit amount:");
 		double amount = BankingApp.scan.nextInt();
+		BankingApp.scan.nextLine();
+		double checkings_bal = account.getCheckingsBalance();
 		try {
 			if (amount < 0) {
-				System.out.println("Input can't be negative");
+				System.out.println("            Input can't be negative");
 			
 			} else {
-				checkingsBalance += amount;
-				System.out.println("Deposit complete!");
-				System.out.println("Your checkings balance is now" + checkingsBalance );
+				checkings_bal += amount;
+				account.setCheckingsBalance(checkings_bal);
+				aDao.updateAccount(account);
+				System.out.println("            Deposit complete!");
+				BankingApp.addSpace();
+				System.out.println("            Your checkings balance is now:   " + checkings_bal );
+				
 			}
 			} catch (InputMismatchException e) {
-					System.out.println("Invalid Input");
+					System.out.println("            Invalid Input");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 	}
 	
-	public void deposiSavings() {
-		System.out.println("Enter deposit amount:");
+	public void depositSavings(Account account) {
+		System.out.println("            Enter deposit amount:");
 		double amount = BankingApp.scan.nextInt();
+		BankingApp.scan.nextLine();
+		double savings_bal = account.getSavingsBalance();
 		try {
 			if (amount < 0) {
-				System.out.println("Input can't be negative");
+				System.out.println("            Input can't be negative");
 			
 			} else {
-				savingsBalance += amount;
-				System.out.println("Deposit complete!");
-				System.out.println("Your savingss balance is now" + savingsBalance );
+				savings_bal += amount;
+				account.setSavingsBalance(savings_bal);
+				aDao.updateAccount(account);
+				System.out.println("            Deposit complete!");
+				BankingApp.addSpace();
+				System.out.println("            Your savingss balance is now:   " + savings_bal );
+		
 			}
 			} catch (InputMismatchException e) {
-					System.out.println("Invalid Input");
+					System.out.println("           Invalid Input");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 	}
-	*/
+	
+
+
+
+
 	
 
 }

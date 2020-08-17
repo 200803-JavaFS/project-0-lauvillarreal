@@ -25,7 +25,7 @@ public class BankingApp {
 	Account account = user.getAccount();
 
 	
-	public void application () {
+	public void application() {
 		
 		log.info("The application has started");
 	
@@ -44,7 +44,7 @@ public class BankingApp {
 		if (user != null) {
 		serviceMenu();
 		}
-		
+	
 		
 		
 		log.info("The application is ending") ;
@@ -59,14 +59,13 @@ public class BankingApp {
 	}
 	
 	public void serviceMenu() {
-		System.out.println("             Select one of the following options.");
+		System.out.println("            Select one of the following options.");
 		System.out.println("____________________________________________________________________________________________________________________");
 		String checkingsBalance = "Checkings Balance";
 		String savingsBalance = "Savings Balance";
 		String makeDeposit = "Deposit";
 		String makeWithdrawal = "Withdrawal";
 		String makeTransfer = "Transfer";
-		String openAccount = "Open New Account";
 		System.out.println("     [" + checkingsBalance + " (C)] [" + savingsBalance + " (S)] [" + makeDeposit + " (D)] [" + makeWithdrawal + " (W)] [" + makeTransfer + " (T)] [Exit (E)]"  );
 		System.out.println("____________________________________________________________________________________________________________________");
 		addSpace();
@@ -85,36 +84,81 @@ public class BankingApp {
 				System.out.println("            Your checkings has a balance of: " + checkings_bal);
 				addSpace();
 				serviceMenu();
-				addSpace();
 				break;
 			case "s":
 				Double savings_bal = account.getSavingsBalance();
 				System.out.println("            Your savings has a balance of: " + savings_bal);
-				addSpace();
 				serviceMenu();
-				addSpace();
-				
 				break;
 			case "d":
-				//getOneAvenger();
+				choiceOfAccount();
+				serviceMenu();
 				break;
 			case "w":
-				//addAvenger();
+				choiceOfAccount2();
+				serviceMenu();
 				break;
 			case "t":
-				//addAvenger();
+				
 				break;
 			case "e":
-				System.out.println("             Thank you for using the application. Hope to see you soon!");
+				System.out.println("            Thank you for using the application. Hope to see you soon!");
+				User.setLoggedIn(false);
 				addSpace();
 				break;
 			default:
-				System.out.println("You have entered an incorrect value. Please try again. ");
+				System.out.println("            You have entered an incorrect value. Please try again. ");
 				serviceMenu();
 				break;
 		}
 	}
-
+	
+	public boolean choiceOfAccount() {
+		account = ed.getAccountByUsername(user.getUsername());
+		System.out.println("            Would you like to deposit to Checkings [C] or Savings [S] ?");
+		String choice = scan.nextLine().toLowerCase();
+		if(choice.equals("c")) {
+			as.depositCheckings(account);
+			addSpace();
+			return true;
+			
+		}
+		else if(choice.equals("s")) {
+			as.depositSavings(account);
+			addSpace();
+			return true;
+		
+		}
+		else {
+			System.out.println("           Wrong input, back to Main Menu.");
+			return false;
+		
+			
+		}
+	}
+	public boolean choiceOfAccount2() {
+		account = ed.getAccountByUsername(user.getUsername());
+		System.out.println("            Would you like to withdraw from Checkings [C] or Savings [S] ?");
+		String choice = scan.nextLine().toLowerCase();
+		if(choice.equals("c")) {
+			as.withdrawCheckings(account);
+			addSpace();
+			return true;
+			
+		}
+		else if(choice.equals("s")) {
+			as.withdrawSavings(account);
+			addSpace();
+			return true;
+		
+		}
+		else {
+			System.out.println("           Wrong input, back to Main Menu.");
+			return false;
+		
+			
+		}
+	}
 	public void introduction() {
 		System.out.println("                                    Welcome to Velox Bank");
 		System.out.println("                                  Where Banking Is Made Simple");

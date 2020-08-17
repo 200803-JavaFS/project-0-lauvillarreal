@@ -74,9 +74,9 @@ public class EmployeesDAO implements IEmployeesDAO {
 
 
 	@Override
-	public List<User> getAllUsers(User user) {
+	public List<User> getAllUsers() {
 		try (Connection conn = ConnectionUtility.getConnection()) {
-			String sql = "SELECT * FROM avengers;";
+			String sql = "SELECT * FROM Users;";
 
 			Statement statement = conn.createStatement();
 
@@ -101,16 +101,17 @@ public class EmployeesDAO implements IEmployeesDAO {
 		return null;
 	}
 	@Override
-	public User getUser(User user) {
+	public User getUser(String username) {
 		try (Connection conn = ConnectionUtility.getConnection()) {
-			String sql = "SELECT * FROM avengers;";
+			String sql = "SELECT * FROM users WHERE users_username_fk = ?;";
 
-			Statement statement = conn.createStatement();
+			PreparedStatement statement = conn.prepareStatement(sql);
+			
+			statement.setString(1, username);
 
+
+			ResultSet result = statement.executeQuery();
 			User u = null;
-
-			ResultSet result = statement.executeQuery(sql);
-
 			while (result.next()) {
 				u = new User(result.getString("users_username_fk"), result.getString("users_password"),
 						result.getString("users_name"),result.getBoolean("isloggedin"), result.getString("users_type"),

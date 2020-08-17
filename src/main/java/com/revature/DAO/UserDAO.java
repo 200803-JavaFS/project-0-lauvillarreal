@@ -29,7 +29,9 @@ public class UserDAO implements IUserDAO {
 			return true; 
 			
 		}catch (SQLException e) {
+			System.out.println("error here");
 			e.printStackTrace();
+			
 		}
 		
 		return false;
@@ -44,14 +46,14 @@ public class UserDAO implements IUserDAO {
 						+ "INSERT INTO account (users_username, users_name, checkings_bal, savings_bal, status)"
 						+ "VALUES (?, ?, ?, ?, ?);"
 						+ "INSERT INTO users (users_password, isloggedin, users_type, users_username_fk, users_name)"
-						+ "VALUES (?, ?, ?, ?, ?, ?);"
+						+ "VALUES (?, ?, ?, ?, ?);"
 						+ "COMMIT;";
 				
 				PreparedStatement statement = conn.prepareStatement(sql);
 				
 				Account a = user.getAccount();
 				
-			
+		
 				int index = 0;
 				statement.setString(++index, a.getUsername());
 				statement.setString(++index, a.getName());
@@ -75,7 +77,7 @@ public class UserDAO implements IUserDAO {
 	}
 
 	@Override
-	public boolean updatelLoggedin(User user) {
+	public boolean updateLoggedin(User user) {
 		try (Connection conn = ConnectionUtility.getConnection()) {
 			String sql = "UPDATE users SET isloggedin = ?;";
 			

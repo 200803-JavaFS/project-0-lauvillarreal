@@ -25,7 +25,7 @@ public class ConnectionUtility {
 		
 		//If connection was closed then retrieve a new connection
 		if (connection.isClosed()){
-			System.out.println("Opening new connection...");
+			System.out.println("Opening new connection...looking at database");
 			connection = DriverManager.getConnection(URL, CONNECTION_USERNAME, CONNECTION_PASSWORD);
 		}
 		return connection;

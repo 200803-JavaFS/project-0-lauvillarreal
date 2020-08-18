@@ -57,6 +57,38 @@ public class AccountServices {
 		}
 		return false;
 	}
+	
+	public Account addAccount(User user) {
+		System.out.println("             What amount would you like to add to your checkings account?");
+		int checkings_bal = BankingApp.scan.nextInt();
+		BankingApp.scan.nextLine();
+		System.out.println("             Would you like to open a savings account [yes] [no] ?");
+		String openSavings = BankingApp.scan.nextLine();
+		int savings_bal = 0;
+		if (openSavings.equals("yes")) {
+			System.out.println("             What amount would you like to add to you savings account?");
+			savings_bal =  BankingApp.scan.nextInt();
+			BankingApp.scan.nextLine();
+			
+		}
+		if (openSavings.equals("no")) {
+			System.out.println("             No problem, you can open account at any time.");
+			user.getAccount().setSavingsBalance(0);
+
+		}
+		if (!openSavings.equals("yes") && !openSavings.equals("no")){
+			System.out.println("            wrong input, start over.");
+			addAccount(user);
+		
+		}
+		String status = "approved";
+		
+		System.out.println("             Your account has been " + status);
+	
+		Account ac = new Account( user.getName(), checkings_bal, savings_bal, user.getUsername(), status);
+		user.setAccount(ac);
+		return ac;
+	}
 
 	public void withdrawCheckings(Account account){
 		System.out.println("            Enter widthrawal amount:");
@@ -141,6 +173,7 @@ public class AccountServices {
 	}
 	
 	
+	
 	public void depositCheckings(Account account) {
 		System.out.println("            Enter deposit amount:");
 		double amount = BankingApp.scan.nextInt();
@@ -189,6 +222,23 @@ public class AccountServices {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+	}
+
+	public void updateSetLoggedIn(boolean b, User user) {
+		try {
+			uDao.updateLoggedin(user, b);
+		} catch (Exception e) {
+			
+		}
+	}
+
+	public void getAllAccounts() {
+		List<Account> list = eDao.getAllAccounts();
+		int a = list.size();
+		System.out.println(a);
+		for (Account b : list) {
+			System.out.print(b + "");
+		}
 	}
 
 

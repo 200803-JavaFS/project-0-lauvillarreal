@@ -40,11 +40,20 @@ public class BankingApp {
 		//Logging In/Registering Menu
 		loginAndRegisterMenu();
 		
-		
-		//If user exits in database, then they can use application
+		//Determine type of user
 		if (user != null) {
-		serviceMenu();
-		}
+			if (user.getType().equals("admin")) {
+				adminMenu();
+			}
+			if (user.getType().equals("customer")) {
+				serviceMenu();
+			}
+			if (user.getType().equals("employee")){
+				employeeMenu();
+			}
+		}else {
+				System.out.println("          User does not exist");
+			}
 	
 		
 		
@@ -55,6 +64,120 @@ public class BankingApp {
 	
 	
 	
+	private void employeeMenu() {
+		System.out.println("            Select one of the following options.");
+		System.out.println("____________________________________________________________________________________________________________________");
+		System.out.println("     [Account Balances/Info (B)] [Customer Personal Information (P)] [Approve/Deny Accounts (A)] [Exit (E)]"  );
+		System.out.println("____________________________________________________________________________________________________________________");
+		String answer = scan.nextLine().toLowerCase(); 
+		answerSwitch3(answer);
+		
+	}
+
+
+
+
+
+	private void answerSwitch3(String answer) {
+		answer = answer.toLowerCase();
+		
+		switch(answer){
+			case "b":
+				try {
+				System.out.println("            Would you like to see a single user's acccount balance/info [u] or all balances [a] ? ");
+				String input = scan.nextLine().toLowerCase();
+				if (input.equals("u")) {
+					System.out.println("            Enter the Accound ID :");
+					int accID = scan.nextInt();
+					scan.nextLine();
+					User accUser = new User();
+					accUser = ed.getUserByID(accID);
+					System.out.println(accUser.getAccount());
+					addSpace();
+					employeeMenu();
+				}
+				else if (input.equals("a")) {
+					System.out.println(ed.getAllUsers());
+					employeeMenu();
+				}else {
+					System.out.println("            Wrong input.. Start Over");
+					addSpace();
+					employeeMenu();
+					
+				}
+				
+				} catch (InputMismatchException e) {
+					System.out.println("            Wrong Input. Start Over...");
+					addSpace();
+					employeeMenu();
+				} catch (NullPointerException e) {
+					System.out.println("          Accound ID does not exists.. Start Over");
+					addSpace();
+					employeeMenu();
+				}
+				break;
+			case "p":
+				try {
+					System.out.println("            Would you like to see a single user's personal info [u] or all user's info [a] ? ");
+					String input = scan.nextLine().toLowerCase();
+					if (input.equals("u")) {
+						System.out.println("            Enter the Users ID :");
+						int usrID = scan.nextInt();
+						scan.nextLine();
+						user = ed.getUserByID(usrID);
+						System.out.println(user);
+						addSpace();
+						employeeMenu();
+						
+					}
+					else if (input.equals("a")) {
+						as.getAllAccounts();
+					}else {
+						System.out.println("            Wrong input.. Start Over");
+						addSpace();
+						employeeMenu();
+						
+					}
+					
+					} catch (InputMismatchException e) {
+						System.out.println("            Wrong Input. Start Over...");
+						addSpace();
+						employeeMenu();
+					} catch (NullPointerException e) {
+						System.out.println("          Accound ID does not exists.. Start Over");
+						addSpace();
+						employeeMenu();
+					}
+				
+				break;
+			case "a":
+				
+				break;
+			case "e":
+				System.out.println("            Thank you for using the application. Hope to see you soon!");
+				as.updateSetLoggedIn(false, user);
+				addSpace();
+				break;
+			default:
+				System.out.println("            You have entered an incorrect value. Please try again. ");
+				addSpace();
+				employeeMenu();
+				break;
+		}
+	}
+
+
+
+
+
+	private void adminMenu() {
+		
+	}
+
+
+
+
+
 	public void logo(){
 		Logo logo = new Logo();
 	}
@@ -87,10 +210,14 @@ public class BankingApp {
 				serviceMenu();
 				break;
 			case "s":
+				if (user.getAccount().getSavingsBalance() == 0) {
+					System.out.println("            You do not have a savings account.");
+				} else {
 				account = ed.getAccountByUsername(user.getUsername());
 				Double savings_bal = account.getSavingsBalance();
 				System.out.println("            Your savings has a balance of: " + savings_bal);
 				serviceMenu();
+				}
 				break;
 			case "d":
 				choiceOfAccount();
@@ -124,7 +251,7 @@ public class BankingApp {
 				break;
 			case "e":
 				System.out.println("            Thank you for using the application. Hope to see you soon!");
-				User.setLoggedIn(false);
+				as.updateSetLoggedIn(false, user);
 				addSpace();
 				break;
 			default:
@@ -234,15 +361,16 @@ public class BankingApp {
 		switch(answer){
 			case "login": 
 				login();
-				User.setLoggedIn(true);
+				as.updateSetLoggedIn(true,user);
 				break;
 			case "register":
 				RegisterUser();
-				User.setLoggedIn(true);
+				as.updateSetLoggedIn(true,user);
 				break;
 			case "exit":
 				System.out.println("             Thank you for using the application. Hope to see you soon!");
 				addSpace();
+				as.updateSetLoggedIn(false,user);
 				break;
 				
 			default:
@@ -273,19 +401,29 @@ public class BankingApp {
 		
 		
 		//Name
-		System.out.println("             Are you a new [customer] [admin] [employee] ? ");
-		String type = BankingApp.scan.nextLine();
+		System.out.println("             Are you a new Customer[c] admin[a] employee[e] ? ");
+		String type = scan.nextLine().toLowerCase();
+		if (type.equals("c")) {
+			type = "customer";
+		}
+		if (type.equals("a")) {
+			type = "admin";
+		}
+		if (type.equals("e")) {
+			type = "employee";
+		}
+		else {
+			System.out.println("            You have not entered the right input. Start Over...");
+			RegisterUser();
+		}
 		
 		//Add account when registering
 		System.out.println("             Thank you " + Name + " for registering with Velox Bank!");
-		User user = new User(username, password, Name, true, type);
-		addAccount(user);
+		user = new User(username, password, Name, true, type);
+		as.addAccount(user);
 		as.registerUser(user);
 	
-		
-		//LogIn
-		addSpace();
-		System.out.println("             Select one of the following options. To exit, press exit.");
+	
 		
 	}
 	
@@ -308,36 +446,7 @@ public class BankingApp {
 		}return false;
 	}
 	
-	private Account addAccount(User user) {
-		System.out.println("             What amount would you like to add to your checkings account?");
-		int checkings_bal = scan.nextInt();
-		scan.nextLine();
-		System.out.println("             Would you like to open a savings account [yes] [no] ?");
-		String openSavings = scan.nextLine();
-		int savings_bal = 0;
-		if (openSavings.equals("yes")) {
-			System.out.println("             What amount would you like to add to you savings account?");
-			savings_bal =  scan.nextInt();
-			scan.nextLine();
-			
-		}
-		if (openSavings.equals("no")) {
-			System.out.println("            No problem, you can open account at any time.");
-
-		}
-		if (!openSavings.equals("yes") && !openSavings.equals("no")){
-			System.out.println("            wrong input, start over.");
-			addAccount(user);
-		
-		}
-		String status = "approved";
-		
-		System.out.println("             Your account has been " + status);
 	
-		Account ac = new Account( user.getName(), checkings_bal, savings_bal, user.getUsername(), status);
-		user.setAccount(ac);
-		return ac;
-	}
 	
 	public boolean usernameVerification() {
 		System.out.println("             Log In by entering your account username");

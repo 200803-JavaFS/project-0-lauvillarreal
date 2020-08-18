@@ -28,9 +28,12 @@ public class EmployeesDAO implements IEmployeesDAO {
 			ResultSet result = statement.executeQuery(sql);
 
 			while (result.next()) {
-				Account a = new Account(result.getString("users_name"), result.getDouble("checkings_bal"),
-						result.getDouble("savings_bal"), result.getString("users_username"),
-						result.getString("status"));
+				Account a = new Account();
+						a.setName(result.getString("users_name"));
+						a.setCheckingsBalance(result.getDouble("checkings_bal"));
+						a.setSavingsBalance(result.getDouble("savings_bal"));
+						a.setUsername(result.getString("users_username"));
+						a.setStatus(result.getString("status"));
 				
 				list.add(a);
 			}

@@ -77,13 +77,14 @@ public class UserDAO implements IUserDAO {
 	}
 
 	@Override
-	public boolean updateLoggedin(User user) {
+	public boolean updateLoggedin(User user, boolean b) {
 		try (Connection conn = ConnectionUtility.getConnection()) {
-			String sql = "UPDATE users SET isloggedin = ?;";
+			String sql = "UPDATE users SET isloggedin = ? WHERE users_username_fk = ?;";
 			
 			PreparedStatement statement = conn.prepareStatement(sql);
 
-			statement.setBoolean(1, user.isLoggedIn());
+			statement.setBoolean(1, b);
+			statement.setString(2, user.getUsername());
 		
 			
 			statement.execute();

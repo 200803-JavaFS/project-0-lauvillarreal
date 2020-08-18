@@ -74,6 +74,7 @@ public class AccountServices {
 				account.setCheckingsBalance(checkingsBalance);
 				aDao.updateAccount(account);
 				System.out.println("            Withrawal complete!");
+				BankingApp.addSpace();
 				System.out.println("            Your checkings balance is now: " + checkingsBalance );
 			}
 			} catch (InputMismatchException e) {
@@ -99,6 +100,7 @@ public class AccountServices {
 				account.setSavingsBalance(savingsBalance);
 				aDao.updateAccount(account);
 				System.out.println("            Withrawal complete!");
+				BankingApp.addSpace();
 				System.out.println("            Your savingss balance is now: " + savingsBalance );
 			}
 			} catch (InputMismatchException e) {
@@ -108,12 +110,37 @@ public class AccountServices {
 			}
 	}
 	
-	/*
+
 	
-	public void transfer(Account account) {
-		
+	public void transfer(User a, User b, double amount) {
+		try {
+			Double balance1= a.getAccount().getCheckingsBalance();
+			if (amount < 0) {
+				System.out.println("            Input can't be negative");
+			}
+			if (amount > balance1) {
+				System.out.println("            Not enough funds");
+			} else {
+		balance1 -= amount;
+		a.getAccount().setCheckingsBalance(balance1);
+		Double balance2= b.getAccount().getCheckingsBalance();
+		balance2 += amount;
+		b.getAccount().setCheckingsBalance(balance2);
+		eDao.transfer(a,b);
+		System.out.println("            You have successfully transfered " + amount + " to " + b.getName());
+		System.out.println("                                                              ");
+		System.out.println("            Your account balance is now : " + balance1);
+			}
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		} catch (InputMismatchException e) {
+			System.out.println("            Invalid Input");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-*/
+	
+	
 	public void depositCheckings(Account account) {
 		System.out.println("            Enter deposit amount:");
 		double amount = BankingApp.scan.nextInt();
@@ -163,6 +190,8 @@ public class AccountServices {
 				e.printStackTrace();
 			}
 	}
+
+
 	
 
 

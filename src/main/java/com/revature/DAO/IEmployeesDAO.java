@@ -15,7 +15,9 @@ public interface IEmployeesDAO {
 	
 	public List<Account> getAllAccounts();
 	public Account getAccountByUsername(String username);
-	public User getUser(String username);
+	public boolean transfer(User user1, User user2 );
+	public User getUserByUsername(String username);;
+	public User getUserByID(int ID);
 	public List<User> getAllUsers();
 	public boolean setStatus(Account account);
 

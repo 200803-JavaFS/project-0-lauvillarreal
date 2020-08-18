@@ -87,7 +87,7 @@ public class EmployeesDAO implements IEmployeesDAO {
 			while (result.next()) {
 				User u = new User(result.getString("users_username_fk"), result.getString("users_password"),
 						result.getString("users_name"),result.getBoolean("isloggedin"), result.getString("users_type"),
-					    null, result.getString("users_id"));
+					    null, result.getInt("users_id"));
 				if (result.getString("users_username_fk") != null) {
 					u.setAccount(getAccountByUsername(result.getString("users_username_fk")));
 				}
@@ -100,8 +100,9 @@ public class EmployeesDAO implements IEmployeesDAO {
 		}
 		return null;
 	}
+	
 	@Override
-	public User getUser(String username) {
+	public User getUserByUsername(String username) {
 		try (Connection conn = ConnectionUtility.getConnection()) {
 			String sql = "SELECT * FROM users WHERE users_username_fk = ?;";
 
@@ -115,7 +116,7 @@ public class EmployeesDAO implements IEmployeesDAO {
 			while (result.next()) {
 				u = new User(result.getString("users_username_fk"), result.getString("users_password"),
 						result.getString("users_name"),result.getBoolean("isloggedin"), result.getString("users_type"),
-					    null, result.getString("users_id"));
+					    null, result.getInt("users_id"));
 				if (result.getString("users_username_fk") != null) {
 					u.setAccount(getAccountByUsername(result.getString("users_username_fk")));
 				}
@@ -128,6 +129,35 @@ public class EmployeesDAO implements IEmployeesDAO {
 		}
 		return null;
 	}
+	
+	@Override
+	public User getUserByID(int ID) {
+		try (Connection conn = ConnectionUtility.getConnection()) {
+			String sql = "SELECT * FROM users WHERE users_id = ?;";
+
+			PreparedStatement statement = conn.prepareStatement(sql);
+			
+			statement.setInt(1, ID);
+
+			ResultSet result = statement.executeQuery();
+			User u = null;
+			while (result.next()) {
+				u = new User(result.getString("users_username_fk"), result.getString("users_password"),
+						result.getString("users_name"),result.getBoolean("isloggedin"), result.getString("users_type"),
+					    null, result.getInt("users_id"));
+				if (result.getString("users_username_fk") != null) {
+					u.setAccount(getAccountByUsername(result.getString("users_username_fk")));
+				}
+				
+			}
+			return u;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	
 	@Override
 	public boolean setStatus(Account account) {
@@ -145,6 +175,40 @@ public class EmployeesDAO implements IEmployeesDAO {
 			e.printStackTrace();
 		}
 		
+		return false;
+	}
+
+	@Override
+	public boolean transfer(User user1, User user2) {
+		try (Connection conn = ConnectionUtility.getConnection()){
+			
+			String sql = "BEGIN; "
+					+ "UPDATE account SET checkings_bal = ? , savings_bal = ? WHERE users_username = ?;"
+					+ "UPDATE account SET checkings_bal = ? , savings_bal = ? WHERE users_username = ?;"
+					+ "COMMIT;";
+			
+			PreparedStatement statement = conn.prepareStatement(sql);
+			
+			Account a = user1.getAccount();
+			Account a2 = user2.getAccount();
+			
+	
+			int index = 0;
+
+			statement.setDouble(++index, a.getCheckingsBalance());
+			statement.setDouble(++index, a.getSavingsBalance());
+			statement.setString(++index, a.getUsername());		
+			statement.setDouble(++index, a2.getCheckingsBalance());
+			statement.setDouble(++index, a2.getSavingsBalance());
+			statement.setString(++index, a2.getUsername());
+		
+			
+			statement.execute();
+			return true;
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 

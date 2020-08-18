@@ -8,7 +8,7 @@ public class User {
 	private boolean isLoggedIn;
 	private String type;
 	private Account account;
-	private String usersID;
+	private int usersID;
 	
 
 
@@ -26,7 +26,7 @@ public class User {
 	
 	
 	public User(String username, String password, String name, boolean isLoggedIn, String type, Account account,
-			String usersID) {
+			int usersID) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -123,11 +123,11 @@ public class User {
 		isLoggedIn = isLoggedIn;
 	}
 	 
-	public String getUsersID() {
+	public int getUsersID() {
 		return usersID;
 	}
 
-	public void setUsersID(String usersID) {
+	public void setUsersID(int usersID) {
 		this.usersID = usersID;
 	}
 
@@ -186,8 +186,10 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [username=" + username + ", password=" + password + ", name=" + name + ", isLoggedIn=" + isLoggedIn
-				+ ", type=" + type + ", account=" + account + "]";
+				+ ", type=" + type + ", account=" + account + ", usersID=" + usersID + "]";
 	}
+
+	
 
 	
 

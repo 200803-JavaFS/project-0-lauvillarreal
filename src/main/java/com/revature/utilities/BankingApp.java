@@ -1,5 +1,6 @@
 package com.revature.utilities;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import org.apache.logging.log4j.LogManager;
@@ -86,6 +87,7 @@ public class BankingApp {
 				serviceMenu();
 				break;
 			case "s":
+				account = ed.getAccountByUsername(user.getUsername());
 				Double savings_bal = account.getSavingsBalance();
 				System.out.println("            Your savings has a balance of: " + savings_bal);
 				serviceMenu();
@@ -99,7 +101,26 @@ public class BankingApp {
 				serviceMenu();
 				break;
 			case "t":
-				
+				try {
+				System.out.println("            Enter the Account ID that you would like to transfer to : ");
+				int receivingID = scan.nextInt();
+				scan.nextLine();
+				System.out.println("            How much would you like to transfer?  ");
+				int amount = scan.nextInt();
+				scan.nextLine();
+				if (checkIfItExists(receivingID)) {
+					 User receiving = new User();
+					 receiving = ed.getUserByID(receivingID);
+					 as.transfer(user,receiving, amount);
+					 serviceMenu();
+				 } else {
+					 System.out.println("            Account ID does not exist... Start Over ");
+					 serviceMenu();
+				 }
+				} catch (InputMismatchException e) {
+					System.out.println("            You have entered wrong input. Start Over.... ");
+					serviceMenu();
+				}
 				break;
 			case "e":
 				System.out.println("            Thank you for using the application. Hope to see you soon!");
@@ -113,6 +134,27 @@ public class BankingApp {
 		}
 	}
 	
+	private boolean checkIfItExists(int receivingID) {
+		try {
+		User receiving = new User();
+		receiving = ed.getUserByID(receivingID);
+		if (receiving == null) {	
+			return false;
+		} else {
+			return true;
+		}
+		} catch (NullPointerException e) {
+				System.out.println("           Invalid Input");
+		} catch (Exception e) {
+				e.printStackTrace();
+			}
+		return false;
+	}
+
+
+
+
+
 	public boolean choiceOfAccount() {
 		account = ed.getAccountByUsername(user.getUsername());
 		System.out.println("            Would you like to deposit to Checkings [C] or Savings [S] ?");
@@ -130,7 +172,7 @@ public class BankingApp {
 		
 		}
 		else {
-			System.out.println("           Wrong input, back to Main Menu.");
+			System.out.println("            Wrong input, back to Main Menu.");
 			return false;
 		
 			
@@ -153,7 +195,7 @@ public class BankingApp {
 		
 		}
 		else {
-			System.out.println("           Wrong input, back to Main Menu.");
+			System.out.println("            Wrong input, back to Main Menu.");
 			return false;
 		
 			
@@ -210,6 +252,7 @@ public class BankingApp {
 		}
 	}
 	
+
 	public void RegisterUser()  {
 		System.out.println("             To open an account, register now.");
 
@@ -299,14 +342,14 @@ public class BankingApp {
 	public boolean usernameVerification() {
 		System.out.println("             Log In by entering your account username");
 		String userName = scan.nextLine();
-		user = ed.getUser(userName);
+		user = ed.getUserByUsername(userName);
 		count1 = 4;
 		while (count1 > 0) {
 		if (user == null) {
 			System.out.println("             Username does not exists, try again");
 			System.out.println("             Number of tries left: " + count1);
 			userName = scan.nextLine();
-			user = ed.getUser(userName);
+			user = ed.getUserByUsername(userName);
 			count1--;
 		}
 

@@ -51,7 +51,7 @@ public class BankingApp {
 						serviceMenu();
 				}else {
 					System.out.println("             Your account has not been approved yet. An admin or employee will soon look into it.");
-					loginAndRegisterMenu();
+				
 				}
 			}
 			else if (user.getType().equals("employee")){
@@ -487,6 +487,7 @@ public class BankingApp {
 				scan.nextLine();
 				if (checkIfItExists(receivingID)) {
 					 User receiving = new User();
+					 user = ed.getUserByUsername(user.getUsername());
 					 receiving = ed.getUserByID(receivingID);
 					 as.transfer(user,receiving, amount);
 					 serviceMenu();

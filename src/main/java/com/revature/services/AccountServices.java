@@ -155,6 +155,7 @@ public class AccountServices {
 	public void transfer(User a, User b, double amount) {
 		try {
 			Double balance1= a.getAccount().getCheckingsBalance();
+			System.out.println(a);
 			if (amount < 0) {
 				System.out.println("            Input can't be negative");
 			}

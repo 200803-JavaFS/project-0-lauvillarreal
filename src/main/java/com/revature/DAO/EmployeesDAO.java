@@ -163,13 +163,14 @@ public class EmployeesDAO implements IEmployeesDAO {
 	
 	
 	@Override
-	public boolean setStatus(Account account) {
+	public boolean setStatus(Account account, String status) {
 		try (Connection conn = ConnectionUtility.getConnection()) {
-			String sql = "UPDATE account SET status = ?;";
+			String sql = "UPDATE account SET status = ? WHERE users_username = ?;";
 			
 			PreparedStatement statement = conn.prepareStatement(sql);
 
-			statement.setString(1, account.getStatus());
+			statement.setString(1, status);
+			statement.setString(2, account.getUsername());
 		
 			
 			statement.execute();
@@ -213,6 +214,31 @@ public class EmployeesDAO implements IEmployeesDAO {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	@Override
+	public boolean approveAllAccounts() {
+			try (Connection conn = ConnectionUtility.getConnection()) {
+				String status = "approved";
+				String previousStatus = "pending";
+				String sql = "UPDATE account SET status = ? WHERE status = ?;";
+				
+				PreparedStatement statement = conn.prepareStatement(sql);
+
+				statement.setString(1, status);
+				statement.setString(2, previousStatus);
+
+				
+			
+				
+				statement.execute();
+				return true;
+			}catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return false;
+		
 	}
 
 }

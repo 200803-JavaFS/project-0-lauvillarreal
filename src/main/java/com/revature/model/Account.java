@@ -131,8 +131,8 @@ public class Account {
 
 	@Override
 	public String toString() {
-		return "Account [Name=" + Name + ", checkingsBalance=" + checkingsBalance + ", savingsBalance=" + savingsBalance
-				+ ", accountID=" + username + ", status=" + status + "]";
+		return "Account [ Name = " + Name + ",   checkingsBalance = " + checkingsBalance + ",  savingsBalance = " + savingsBalance
+				+ ",  accountID = " + username + ",  status = " + status + " ]";
 	}
 
 

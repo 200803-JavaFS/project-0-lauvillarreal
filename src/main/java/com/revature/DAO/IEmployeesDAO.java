@@ -14,11 +14,12 @@ public interface IEmployeesDAO {
 */
 	
 	public List<Account> getAllAccounts();
+	public boolean approveAllAccounts();
 	public Account getAccountByUsername(String username);
 	public boolean transfer(User user1, User user2 );
 	public User getUserByUsername(String username);;
 	public User getUserByID(int ID);
 	public List<User> getAllUsers();
-	public boolean setStatus(Account account);
+	public boolean setStatus(Account account, String status);
 
 }

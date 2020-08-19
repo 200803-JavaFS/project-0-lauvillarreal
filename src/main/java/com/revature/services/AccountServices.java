@@ -64,27 +64,28 @@ public class AccountServices {
 		BankingApp.scan.nextLine();
 		System.out.println("             Would you like to open a savings account [yes] [no] ?");
 		String openSavings = BankingApp.scan.nextLine();
-		int savings_bal = 0;
+		double savings_bal = 0.0;
 		if (openSavings.equals("yes")) {
 			System.out.println("             What amount would you like to add to you savings account?");
 			savings_bal =  BankingApp.scan.nextInt();
 			BankingApp.scan.nextLine();
 			
 		}
-		if (openSavings.equals("no")) {
-			System.out.println("             No problem, you can open account at any time.");
-			user.getAccount().setSavingsBalance(0);
-
-		}
-		if (!openSavings.equals("yes") && !openSavings.equals("no")){
-			System.out.println("            wrong input, start over.");
+		else if (openSavings.equals("no")) {
+			System.out.println("             No problem, maybe next time.");
+					
+		}else {
+			System.out.println("            Wrong input, start over.");
 			addAccount(user);
-		
 		}
-		String status = "approved";
+		String status = "pending";
+		if (user.getType().equals("customer")) {
+			System.out.println("             Your account status " + status);
+		}	
+		else {
+			status = "approved" ;
+		}
 		
-		System.out.println("             Your account has been " + status);
-	
 		Account ac = new Account( user.getName(), checkings_bal, savings_bal, user.getUsername(), status);
 		user.setAccount(ac);
 		return ac;
@@ -100,14 +101,14 @@ public class AccountServices {
 				System.out.println("            Input can't be negative");
 			}
 			if (amount > checkingsBalance) {
-				System.out.println("            Not enough funds");
+				System.out.println("            Not Enough Funds!!");
 			} else {
 				checkingsBalance -= amount;
 				account.setCheckingsBalance(checkingsBalance);
 				aDao.updateAccount(account);
 				System.out.println("            Withrawal complete!");
 				BankingApp.addSpace();
-				System.out.println("            Your checkings balance is now: " + checkingsBalance );
+				System.out.println("            Checkings balance is now: " + checkingsBalance );
 			}
 			} catch (InputMismatchException e) {
 					System.out.println("            Invalid Input");
@@ -126,14 +127,14 @@ public class AccountServices {
 				System.out.println("            Input can't be negative");
 			}
 			if (amount > savingsBalance) {
-				System.out.println("            Not enough funds");
+				System.out.println("            Not Enough Funds!!");
 			} else {
 				savingsBalance -= amount;
 				account.setSavingsBalance(savingsBalance);
 				aDao.updateAccount(account);
 				System.out.println("            Withrawal complete!");
 				BankingApp.addSpace();
-				System.out.println("            Your savingss balance is now: " + savingsBalance );
+				System.out.println("            Savings balance is now: " + savingsBalance );
 			}
 			} catch (InputMismatchException e) {
 					System.out.println("        Invalid Input");
@@ -151,7 +152,7 @@ public class AccountServices {
 				System.out.println("            Input can't be negative");
 			}
 			if (amount > balance1) {
-				System.out.println("            Not enough funds");
+				System.out.println("            Not Enough Funds!!");
 			} else {
 		balance1 -= amount;
 		a.getAccount().setCheckingsBalance(balance1);
@@ -161,7 +162,7 @@ public class AccountServices {
 		eDao.transfer(a,b);
 		System.out.println("            You have successfully transfered " + amount + " to " + b.getName());
 		System.out.println("                                                              ");
-		System.out.println("            Your account balance is now : " + balance1);
+		System.out.println("            Account balance is now : " + balance1);
 			}
 		} catch (NullPointerException e) {
 			e.printStackTrace();
@@ -189,7 +190,7 @@ public class AccountServices {
 				aDao.updateAccount(account);
 				System.out.println("            Deposit complete!");
 				BankingApp.addSpace();
-				System.out.println("            Your checkings balance is now:   " + checkings_bal );
+				System.out.println("            Checkings balance is now:   " + checkings_bal );
 				
 			}
 			} catch (InputMismatchException e) {
@@ -214,7 +215,7 @@ public class AccountServices {
 				aDao.updateAccount(account);
 				System.out.println("            Deposit complete!");
 				BankingApp.addSpace();
-				System.out.println("            Your savingss balance is now:   " + savings_bal );
+				System.out.println("            Savingss balance is now:   " + savings_bal );
 		
 			}
 			} catch (InputMismatchException e) {
@@ -234,15 +235,46 @@ public class AccountServices {
 
 	public void getAllAccounts() {
 		List<Account> list = eDao.getAllAccounts();
-		int a = list.size();
-		System.out.println(a);
 		for (Account b : list) {
-			System.out.print(b + "");
+			System.out.println(b + "");
+			System.out.println(" ");
+		}
+	}
+
+	public void approveAccount(String status, User user) {
+		if (status.equals("pending")) {
+			status = "approved";
+			eDao.setStatus(user.getAccount(), status);
+			System.out.println("            " + user.getName() + "'s account has been approved. User may now login...");
+		} else {
+			System.out.println("            " + user.getName() + "'s account has already been approved");
 		}
 	}
 
 
+	public void denyAccount(String status, User user) {
+		if (status.equals("pending")) {
+			status = "denied";
+			eDao.setStatus(user.getAccount(), status);
+			System.out.println("            " + user.getName() + "'s account has been " + status);
+		}else if (status.equals("approved")) {
+			status = "denied";
+			eDao.setStatus(user.getAccount(), status);
+			System.out.println("            " + user.getName() + "'s account has been " + status);
+		}
+	}
 	
+	public void cancelAccount(String status, User user) {
+			status = "cancelled";
+			eDao.setStatus(user.getAccount(), status);
+			System.out.println("            " + user.getName() + "'s account has been " + status);
+	
+	}
+
+	public void approveAllcounts() {
+		eDao.approveAllAccounts();
+		System.out.println("            All accounts pending have been Approved.. :)");
+	}
 
 
 

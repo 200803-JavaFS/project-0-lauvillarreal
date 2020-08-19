@@ -185,8 +185,8 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [username=" + username + ", password=" + password + ", name=" + name + ", isLoggedIn=" + isLoggedIn
-				+ ", type=" + type + ", account=" + account + ", usersID=" + usersID + "]";
+		return "User [ username = " + username + " , password=" + password + " , name = " + name + " , isLoggedIn = " + isLoggedIn
+				+ " , type = " + type + " , account = " + account + " , usersID = " + usersID + " ]";
 	}
 
 	

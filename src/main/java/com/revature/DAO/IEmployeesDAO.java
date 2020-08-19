@@ -15,6 +15,7 @@ public interface IEmployeesDAO {
 	
 	public List<Account> getAllAccounts();
 	public boolean approveAllAccounts();
+	public boolean denyAllAccounts();
 	public Account getAccountByUsername(String username);
 	public boolean transfer(User user1, User user2 );
 	public User getUserByUsername(String username);;

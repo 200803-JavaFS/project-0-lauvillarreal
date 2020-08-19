@@ -59,12 +59,15 @@ public class AccountServices {
 	}
 	
 	public Account addAccount(User user) {
+		BankingApp.addSpace();
 		System.out.println("             What amount would you like to add to your checkings account?");
 		int checkings_bal = BankingApp.scan.nextInt();
 		BankingApp.scan.nextLine();
 		System.out.println("             Would you like to open a savings account [yes] [no] ?");
 		String openSavings = BankingApp.scan.nextLine();
 		double savings_bal = 0.0;
+		String status = "pending";
+		try {
 		if (openSavings.equals("yes")) {
 			System.out.println("             What amount would you like to add to you savings account?");
 			savings_bal =  BankingApp.scan.nextInt();
@@ -78,14 +81,18 @@ public class AccountServices {
 			System.out.println("            Wrong input, start over.");
 			addAccount(user);
 		}
-		String status = "pending";
 		if (user.getType().equals("customer")) {
 			System.out.println("             Your account status " + status);
 		}	
 		else {
 			status = "approved" ;
 		}
-		
+		} catch (InputMismatchException e) {
+			System.out.println("            Wrong input");
+			addAccount(user);
+		}catch (Exception e) {
+			addAccount(user);
+		}
 		Account ac = new Account( user.getName(), checkings_bal, savings_bal, user.getUsername(), status);
 		user.setAccount(ac);
 		return ac;
@@ -126,7 +133,7 @@ public class AccountServices {
 			if (amount < 0) {
 				System.out.println("            Input can't be negative");
 			}
-			if (amount > savingsBalance) {
+			else if (amount > savingsBalance) {
 				System.out.println("            Not Enough Funds!!");
 			} else {
 				savingsBalance -= amount;
@@ -205,10 +212,22 @@ public class AccountServices {
 		double amount = BankingApp.scan.nextInt();
 		BankingApp.scan.nextLine();
 		double savings_bal = account.getSavingsBalance();
+		double value = 0.0;
 		try {
 			if (amount < 0) {
 				System.out.println("            Input can't be negative");
-			
+			}
+			else if(savings_bal == 0) {
+				System.out.println("            Do you want to open savings account [yes] or [no]?");
+				String choice = BankingApp.scan.nextLine();
+				if (choice.equals("yes")) {
+					System.out.println("            Deposit complete!");
+				}else if (choice.equals("no")) {
+					System.out.println("            Deposit cannot be completed!");
+				}else {
+					System.out.println("           Invalid Input");
+				}
+				
 			} else {
 				savings_bal += amount;
 				account.setSavingsBalance(savings_bal);
@@ -271,10 +290,24 @@ public class AccountServices {
 	
 	}
 
-	public void approveAllcounts() {
+	public void approveAllAccounts() {
 		eDao.approveAllAccounts();
 		System.out.println("            All accounts pending have been Approved.. :)");
 	}
+
+	public void getAllUsers() {
+		List<User> list = eDao.getAllUsers();
+		for (User u : list) {
+			System.out.println(u + "");
+			System.out.println(" ");
+		}
+	}
+
+	public void denyAllAccounts() {
+		eDao.denyAllAccounts();
+		System.out.println("            All accounts pending have been Denied.. :(");
+	}
+	
 
 
 

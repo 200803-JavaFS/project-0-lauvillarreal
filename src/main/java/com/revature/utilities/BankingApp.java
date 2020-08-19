@@ -50,10 +50,9 @@ public class BankingApp {
 				if (user.getAccount().getStatus().equals("approved")) {
 						serviceMenu();
 				}else {
-					System.out.println("            Your account has not been approved");
+					System.out.println("             Your account has not been approved yet. An admin or employee will soon look into it.");
 					loginAndRegisterMenu();
 				}
-			
 			}
 			else if (user.getType().equals("employee")){
 				employeeMenu();
@@ -80,8 +79,6 @@ public class BankingApp {
 
 
 
-
-
 	private void answerSwitch4(String answer) {
 		answer = answer.toLowerCase();
 		
@@ -102,6 +99,7 @@ public class BankingApp {
 				}
 				else if (input.equals("a")) {
 					as.getAllAccounts();
+					addSpace();
 					adminMenu();
 				}else {
 					System.out.println("            Wrong input.. Start Over");
@@ -122,7 +120,7 @@ public class BankingApp {
 				break;
 			case "d":
 				try {
-					System.out.println("            Would you like to Deposit [D] Withdraw [W] Transfer [F] from Accounts ?");
+					System.out.println("            Would you like to Deposit [D] Withdraw [W] Transfer [T] from Accounts ?");
 					String input = scan.nextLine().toLowerCase();
 					if (input.equals("d")) {
 						System.out.println("            Enter the Users ID :");
@@ -215,9 +213,26 @@ public class BankingApp {
 					}
 				}
 				if (input.equals("a")) {
-					as.approveAllcounts();
-					addSpace();
-					adminMenu();	
+					System.out.println("            Would you like to [approved] or [denied]  all users? Type as inidcated inside brackets. ");
+					String status = scan.nextLine().toLowerCase();
+					if (status.equals("approved")) {
+						as.approveAllAccounts();
+						addSpace();
+						adminMenu();
+					} 
+					else if (status.equals("denied")) {
+						as.denyAllAccounts();
+						addSpace();
+						adminMenu();
+					
+					}else {
+						System.out.println("            Wrong input.. Start Over");
+						adminMenu();
+					}
+						
+				}else {
+					System.out.println("            Wrong input.. Start Over");
+					adminMenu();
 				}
 				} catch (InputMismatchException e) {
 					System.out.println("            Wrong Input. Start Over...");
@@ -280,7 +295,7 @@ public class BankingApp {
 					employeeMenu();
 				}
 				else if (input.equals("a")) {
-					System.out.println(ed.getAllUsers());
+					as.getAllAccounts();
 					employeeMenu();
 				}else {
 					System.out.println("            Wrong input.. Start Over");
@@ -308,13 +323,16 @@ public class BankingApp {
 						int usrID = scan.nextInt();
 						scan.nextLine();
 						user = ed.getUserByID(usrID);
-						System.out.println(user);
+						System.out.println(user.toString());
 						addSpace();
 						employeeMenu();
 						
 					}
 					else if (input.equals("a")) {
-						as.getAllAccounts();
+						as.getAllUsers();
+						addSpace();
+						employeeMenu();
+						
 					}else {
 						System.out.println("            Wrong input.. Start Over");
 						addSpace();
@@ -334,14 +352,67 @@ public class BankingApp {
 				
 				break;
 			case "a":
-				String status = user.getAccount().getStatus();
-				as.approveAccount(status, user);
-				
+				try {
+					System.out.println("            Would you like to approve/deny a single user [u] or all users [a]");
+					String input = scan.nextLine().toLowerCase();
+					if (input.equals("u")) {
+						System.out.println("            Enter the Users ID :");
+						int usrID = scan.nextInt();
+						scan.nextLine();
+						user = ed.getUserByID(usrID);
+						System.out.println("            Would you like to [approved] or [denied] ? Type as indicated inside brackets.");
+						String status = scan.nextLine();
+						if (status.equals("approved")) {
+							as.approveAccount("pending", user);
+							addSpace();
+							employeeMenu();
+						} 
+						else if (status.equals("denied")) {
+							as.denyAccount("pending", user);
+							addSpace();
+							employeeMenu();
+						
+						}else {
+							System.out.println("            Wrong input.. Start Over");
+							addSpace();
+							employeeMenu();
+						}
+					}
+					else if (input.equals("a")) {
+						System.out.println("            Would you like to [approved] or [denied]  all users? Type as inidcated inside brackets. ");
+						String status = scan.nextLine().toLowerCase();
+						if (status.equals("approved")) {
+							as.approveAllAccounts();
+							addSpace();
+							employeeMenu();
+						} 
+						else if (status.equals("denied")) {
+							as.denyAllAccounts();
+							addSpace();
+							employeeMenu();
+						
+						}else {
+							System.out.println("            Wrong input.. Start Over");
+							employeeMenu();
+						}
+							
+					}else {
+						System.out.println("            Wrong input.. Start Over");
+						employeeMenu();
+					}
+					} catch (InputMismatchException e) {
+						System.out.println("            Wrong Input. Start Over...");
+						addSpace();
+						employeeMenu();
+					} catch (NullPointerException e) {
+						System.out.println("          Accound ID does not exists.. Start Over");
+						addSpace();
+						employeeMenu();
+					}
 				break;
 			case "e":
 				System.out.println("            Thank you for using the application. Hope to see you soon!");
 				as.updateSetLoggedIn(false, user);
-				System.out.println("here in e");
 				addSpace();
 				break;
 			default:
@@ -390,6 +461,7 @@ public class BankingApp {
 			case "s":
 				if (user.getAccount().getSavingsBalance() == 0) {
 					System.out.println("            You do not have a savings account.");
+					serviceMenu();
 				} else {
 				account = ed.getAccountByUsername(user.getUsername());
 				Double savings_bal = account.getSavingsBalance();

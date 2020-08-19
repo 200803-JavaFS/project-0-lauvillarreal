@@ -241,4 +241,29 @@ public class EmployeesDAO implements IEmployeesDAO {
 		
 	}
 
+	@Override
+	public boolean denyAllAccounts() {
+		try (Connection conn = ConnectionUtility.getConnection()) {
+			String status = "denied";
+			String previousStatus = "pending";
+			String sql = "UPDATE account SET status = ? WHERE status = ?;";
+			
+			PreparedStatement statement = conn.prepareStatement(sql);
+
+			statement.setString(1, status);
+			statement.setString(2, previousStatus);
+
+			
+		
+			
+			statement.execute();
+			return true;
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+
 }
